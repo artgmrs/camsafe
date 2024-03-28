@@ -1,0 +1,4 @@
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'CamSafeDB')
+BEGIN
+  CREATE DATABASE [CamSafeDB]
+END

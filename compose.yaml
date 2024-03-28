@@ -1,0 +1,31 @@
+services:
+  camsafeapi:
+    container_name: camsafe_api
+    build:
+      context: .
+      target: final
+    ports:
+      - 8080:8080
+    depends_on:
+      - sqldata
+
+  sqldata:
+    container_name: camsafe_database_sqlserver
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - MSSQL_SA_PASSWORD=Password@1
+      - ACCEPT_EULA=Y
+    ports:
+      - "1450:1433"
+
+  mssqltools:
+    container_name: mssqltools
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - sqldata
+    volumes:
+      - ./Scripts/01-DDL_Create_Database.sql:/tmp/01-DDL_Create_Database.sql
+      - ./Scripts/02-DDL_Config_Tables_CamSafeDB.sql:/tmp/02-DDL_Config_Tables_CamSafeDB.sql
+      - ./Scripts/03-Insert_Mock_data.sql:/tmp/03-Insert_Mock_data.sql
+      - ./Scripts/init-camsafedb.sh:/tmp/init-camsafedb.sh
+    command: /bin/bash ./tmp/init-camsafedb.sh
