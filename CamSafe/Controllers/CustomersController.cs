@@ -38,9 +38,9 @@ namespace CamSafe.Controllers
 
                 return BadRequest(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                response.ErrorsMessages.Add("Sorry, some error ocurred :(");
+                response.ErrorsMessages.Add(ex.Message);
                 response.StatusCode = StatusCodes.Status500InternalServerError;
 
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
@@ -67,9 +67,9 @@ namespace CamSafe.Controllers
 
                 return BadRequest(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                response.ErrorsMessages.Add("Sorry, some error ocurred :(");
+                response.ErrorsMessages.Add(ex.Message);
                 response.StatusCode = StatusCodes.Status500InternalServerError;
 
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
@@ -96,9 +96,9 @@ namespace CamSafe.Controllers
 
                 return BadRequest(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                response.ErrorsMessages.Add("Sorry, some error ocurred :(");
+                response.ErrorsMessages.Add(ex.Message);
                 response.StatusCode = StatusCodes.Status500InternalServerError;
 
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
