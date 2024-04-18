@@ -27,5 +27,5 @@ services:
       - ./Scripts/01-DDL_Create_Database.sql:/tmp/01-DDL_Create_Database.sql
       - ./Scripts/02-DDL_Config_Tables_CamSafeDB.sql:/tmp/02-DDL_Config_Tables_CamSafeDB.sql
       - ./Scripts/03-Insert_Mock_data.sql:/tmp/03-Insert_Mock_data.sql
-      - ./Scripts/init-camsafedb.sh:/tmp/init-camsafedb.sh
-    command: /bin/bash ./tmp/init-camsafedb.sh
+      - ./Scripts/Init_CamSafeDb.sh:/tmp/Init_CamSafeDb.sh
+    command: /bin/bash ./tmp/Init_CamSafeDb.sh
