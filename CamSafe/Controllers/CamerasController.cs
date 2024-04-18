@@ -18,43 +18,14 @@ namespace CamSafe.Controllers
             _cameraBusiness = cameraBusiness;
         }
 
-        [HttpGet("enabled/{state}")]
-        public async Task<IActionResult> GetAllCamerasByState(string state)
+        [HttpGet]
+        public async Task<IActionResult> GetAllCamerasByState(string state, string customerId)
         {
             var response = new GenericResponse<IEnumerable<Camera>>();
 
             try
             {
-                var result = await _cameraBusiness.GetAllCamerasByStateAsync(state);
-                response.Results = result;
-                response.StatusCode = StatusCodes.Status200OK;
-
-                return Ok(response);
-            }
-            catch (CustomException ex)
-            {
-                response.ErrorsMessages.Add(ex.Message);
-                response.StatusCode = StatusCodes.Status400BadRequest;
-
-                return BadRequest(response);
-            }
-            catch (Exception ex)
-            {
-                response.ErrorsMessages.Add(ex.Message);
-                response.StatusCode = StatusCodes.Status500InternalServerError;
-
-                return StatusCode(StatusCodes.Status500InternalServerError, response);
-            }
-        }
-
-        [HttpGet("customers/{customerId}")]
-        public async Task<IActionResult> GetAllCamerasByCustomer(string customerId)
-        {
-            var response = new GenericResponse<IEnumerable<Camera>>();
-
-            try
-            {
-                var result = await _cameraBusiness.GetAllCamerasByCustomerIdAsync(customerId);
+                var result = await _cameraBusiness.GetAllCamerasByFilterAsync(state, customerId);
                 response.Results = result;
                 response.StatusCode = StatusCodes.Status200OK;
 

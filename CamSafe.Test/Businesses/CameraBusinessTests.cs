@@ -86,7 +86,7 @@ namespace CamSafe.Test.Businesses
             var business = new CameraBusiness(repositoryMoq.Object);
 
             // Act and Assert
-            await Assert.ThrowsAsync<CustomException>(() => business.GetAllCamerasByCustomerIdAsync("NotAnInt"));
+            await Assert.ThrowsAsync<CustomException>(() => business.GetAllCamerasByFilterAsync(null, "NotAnInt"));
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace CamSafe.Test.Businesses
             var business = new CameraBusiness(repositoryMoq.Object);
 
             // Act and Assert
-            await Assert.ThrowsAsync<CustomException>(() => business.GetAllCamerasByStateAsync("verdadeiro"));
+            await Assert.ThrowsAsync<CustomException>(() => business.GetAllCamerasByFilterAsync("verdadeiro", null));
         }
 
         [Fact]

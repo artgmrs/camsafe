@@ -45,19 +45,24 @@ namespace CamSafe.Business.Businesses
             return camera;
         }
 
-        public async Task<IEnumerable<Camera>> GetAllCamerasByCustomerIdAsync(string customerId)
+        public async Task<IEnumerable<Camera>> GetAllCamerasByFilterAsync(string? state, string? customerId)
         {
-            Validation.ValidateInt(customerId);
+            IEnumerable<Camera> result = null;
+            if (state != null)
+            {
+                Validation.ValidateBoolean(state);
+                result = await _cameraRepository.GetAllCamerasByStateAsync(state);
 
-            return await _cameraRepository.GetAllCamerasByCustomerIdAsync(customerId);
+            }
 
-        }
+            if (customerId != null)
+            {
+                Validation.ValidateBoolean(customerId);
+                result = await _cameraRepository.GetAllCamerasByCustomerIdAsync(customerId);
 
-        public async Task<IEnumerable<Camera>> GetAllCamerasByStateAsync(string state)
-        {
-            Validation.ValidateBoolean(state);
+            }
 
-            return await _cameraRepository.GetAllCamerasByStateAsync(state);
+            return result;
         }
 
         public async Task<CameraPatchResponse> ActivateCameraAsync(string cameraId)
