@@ -14,6 +14,30 @@ namespace CamSafe.Repository.Repositories
         {
         }
 
+        private async Task CheckCameraIdAsync(string cameraId)
+        {
+            var query = @"SELECT cam.ID
+                          FROM Cameras cam
+                          WHERE ID = @CameraId";
+
+            using (var sqlConnection = new SqlConnection(ConnectionString))
+            {
+                sqlConnection.Open();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@CameraId", cameraId, DbType.String);
+
+                var result = await sqlConnection.QueryAsync<Camera>(query, parameters);
+
+                sqlConnection.Close();
+
+                if (!result.Any())
+                {
+                    throw new CustomException($"There's no camera for the id '{cameraId}'.");
+                }
+            }
+        }
+
         public async Task<int> InsertCameraAsync(Camera camera)
         {
             var query = @"INSERT INTO Cameras (NAME, IP, IS_ENABLED, CUSTOMER_ID)
@@ -119,6 +143,9 @@ namespace CamSafe.Repository.Repositories
             var query = @"UPDATE Cameras
                               SET IS_ENABLED = 'true'
                               WHERE ID = @CameraId";
+
+            await CheckCameraIdAsync(cameraId);
+
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
@@ -126,7 +153,7 @@ namespace CamSafe.Repository.Repositories
                 var parameters = new DynamicParameters();
                 parameters.Add("@CameraId", cameraId, DbType.Int32);
 
-                await sqlConnection.ExecuteAsync(query, parameters);
+                var result = await sqlConnection.ExecuteAsync(query, parameters);
 
                 sqlConnection.Close();
             }
@@ -138,6 +165,9 @@ namespace CamSafe.Repository.Repositories
             var query = @"UPDATE Cameras
                               SET IS_ENABLED = 'false'
                               WHERE ID = @CameraId";
+
+            await CheckCameraIdAsync(cameraId);
+
             using (var sqlConnection = new SqlConnection(ConnectionString))
             {
                 sqlConnection.Open();
