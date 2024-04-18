@@ -9,8 +9,9 @@ CamSafe is focused on assuring security and well-being for all people.
 ## Running the application with local database and Visual Studio for the API
 
 1. To start the SQL Server instance, run the command `docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Password@1" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest`
-2. Go to the folder `CamSafe` and set the connection string properly at `appsettings.Development.json`
-3. In Visual Studio, run the API with profile 'CamSafe'
+2. If it's the first time creating the database you must execute the scripts inside `./Scripts` in order to configure the database
+3. Go to the folder `CamSafe` and set the connection string properly at `appsettings.Development.json`
+4. In Visual Studio, run the API with profile 'CamSafe'
 
 ## Running the application with docker compose
 
@@ -18,7 +19,7 @@ The API and its ecosystem are configured via docker.
 
 1. Clone the repo
 2. Go to the root folder
-3. Run `docker compose up --build` and everything will be up.
+3. Run `docker compose up --build` and everything will be up
 4. Test the API with swagger at http://localhost:8080/swagger/index.html
 
 ## Unit Testing
