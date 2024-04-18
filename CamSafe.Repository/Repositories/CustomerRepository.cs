@@ -1,4 +1,5 @@
-﻿using CamSafe.Entity.DTOs;
+﻿using CamSafe.Entity.CustomExceptions;
+using CamSafe.Entity.DTOs;
 using CamSafe.Entity.Entities;
 using CamSafe.Repository.Interfaces;
 using Dapper;
@@ -46,6 +47,11 @@ namespace CamSafe.Repository.Repositories
                 var result = await sqlConnection.QuerySingleOrDefaultAsync<Customer>(query, parameters);
 
                 sqlConnection.Close();
+
+                if (result == null)
+                {
+                    throw new CustomException($"There's no customer with given id '{id}'.");
+                }
 
                 return result;
             }
